@@ -6,6 +6,7 @@
 #include "Geometry/ray.h"
 #include "Math/vec3.h"
 #include "Utilities/hittable_list.h"
+#include "Camera.h"
 
 color ray_color(const ray& r, const hittable& world)
 {
@@ -26,23 +27,17 @@ int main()
     constexpr auto aspect_ratio = 16.0 / 9.0;
     constexpr int image_width = 400;
     constexpr int image_height = static_cast<int>(image_width / aspect_ratio);
+    constexpr int samplesPerPixel = 100;
 
     // World
     hittable_list world;
-    world.add(std::make_shared<sphere>(point3(0, 0, -1), 0.5));
-    world.add(std::make_shared<sphere>(point3(0, -100.5, -1), 100));
-    world.add(std::make_shared<sphere>(point3(-1, 0, -1), 0.5));
-    world.add(std::make_shared<sphere>(point3(1, 0, -1), 0.5));
+    world.add(std::make_shared<sphere>(point3( 0,    0,   -1), 0.5));
+    world.add(std::make_shared<sphere>(point3( 0, -100.5, -1), 100));
+    world.add(std::make_shared<sphere>(point3(-1,    0,   -1), 0.5));
+    world.add(std::make_shared<sphere>(point3( 1,    0,   -1), 0.5));
 
     // Camera
-    constexpr auto viewport_height = 2.0;
-    constexpr auto viewport_width = aspect_ratio * viewport_height;
-    constexpr auto focal_length = 1.0;
-
-    const auto origin = point3(0, 0, 0);
-    const auto horizontal = vec3(viewport_width, 0, 0);
-    const auto vertical = vec3(0, viewport_height, 0);
-    const auto lower_left_corner = origin - horizontal / 2 - vertical / 2 - vec3(0, 0, focal_length);
+    Camera camera;
 
     // Render
     std::cout << "P3\n" << image_width << " " << image_height << "\n255\n";
@@ -52,13 +47,17 @@ int main()
         std::cerr << "\rScan-lines remaining: " << j << ' ' << std::flush;
         for (int i = 0; i < image_width; ++i)
         {
-            const auto u = static_cast<double>(i) / (image_width - 1);
-            const auto v = static_cast<double>(j) / (image_height - 1);
+            color pixelColor(0.0, 0.0, 0.0);
+            for (int s = 0; s < samplesPerPixel; ++s)
+            {
+                const auto u = (i + RandomDoublePrecise()) / (image_width - 1);
+                const auto v = (j + RandomDoublePrecise()) / (image_height - 1);
 
-            ray r(origin, lower_left_corner + u * horizontal + v * vertical - origin);
-            const color pixel_color = ray_color(r, world);
+                ray r = camera.GetRay(u, v);
+                pixelColor += ray_color(r, world);
+            }
 
-            write_color(std::cout, pixel_color);
+            WriteColor(std::cout, pixelColor, samplesPerPixel);
         }
     }
 

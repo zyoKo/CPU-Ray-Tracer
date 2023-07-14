@@ -1,25 +1,26 @@
 #pragma once
 
-#include "Utilities/hittable.h"
+#include "Utilities/Interfaces/IHittable.h"
 #include "Math/vec3.h"
 
 namespace PathTracer
 {
-	class sphere : public hittable
+	class Sphere : public IHittable
 	{
 	public:
-		sphere() = default;
+		Sphere() = default;
 	
-		sphere(Math::point3 cen, double r);
+		Sphere(const Math::point3& center, double radius);
 	
 		Math::point3 GetCenter() const;
 	
 		double GetRadius() const;
 	
-		bool hit(const ray& r, double t_min, double t_max, hit_record& rec) const override;
+		bool Hit(const Ray& ray, double t_min, double t_max, HitRecord& rec) const override;
 	
 	private:
 		Math::point3 center;
+
 		double radius;
 	};
 }

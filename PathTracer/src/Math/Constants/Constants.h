@@ -10,7 +10,7 @@ namespace PathTracer::Math
 
 	constexpr double PI = 3.1415926535897932385;
 
-	inline double degrees_to_radians(double degree) { return degree * PI / 180.0; }
+	inline double DegreesToRadians(double degree) { return degree * PI / 180.0; }
 
 	inline double RandomDouble() { return rand() / (RAND_MAX + 1.0); }
 

@@ -1,7 +1,7 @@
 # PathTracer
 
-Path Tracer made using Peter Shirley ray tracing framework.
+Path Tracer made using PeterShirley ray tracing framework.
 
-### AntiAliasing
+### Sphere.glsl
 
-![AntiAliasing](https://drive.google.com/file/d/1XmF2HAZRguY_1NwyY6K2Xzp2Yri7AiVb/view?usp=sharing)
+![Spheres](https://www.deviantart.com/d1sf0r14/art/D1sf0r14-926725234)

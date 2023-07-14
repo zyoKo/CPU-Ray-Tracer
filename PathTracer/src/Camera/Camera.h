@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Geometry/ray.h"
+#include "Geometry/Ray.h"
 #include "Constants/Constants.h"
 
 namespace PathTracer
@@ -11,14 +11,14 @@ namespace PathTracer
 		Camera()
 		{
 			origin = Math::point3(0, 0, 0);
-			horizontal = Math::vec3(PathTracer::VIEWPORT_WIDTH, 0, 0);
-			vertical = Math::vec3(0, PathTracer::VIEWPORT_HEIGHT, 0);
-			lowerLeftCorner = origin - horizontal / 2 - vertical / 2 - Math::vec3(0, 0, PathTracer::FOCAL_LENGTH);
+			horizontal = Math::vec3(VIEWPORT_WIDTH, 0, 0);
+			vertical = Math::vec3(0, VIEWPORT_HEIGHT, 0);
+			lowerLeftCorner = origin - horizontal / 2 - vertical / 2 - Math::vec3(0, 0, FOCAL_LENGTH);
 		}
 
-		ray GetRay(double u, double v) const
+		Ray GetRay(double u, double v) const
 		{
-			return ray(origin, lowerLeftCorner + u * horizontal + v * vertical - origin);
+			return Ray(origin, lowerLeftCorner + u * horizontal + v * vertical - origin);
 		}
 
 	private:

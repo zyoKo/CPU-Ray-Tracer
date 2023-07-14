@@ -1,45 +1,45 @@
-#include "sphere.h"
+#include "Sphere.h"
 
 namespace PathTracer
 {
-    sphere::sphere(Math::point3 cen, double r)
+    Sphere::Sphere(Math::point3 cen, double r)
         :   center(cen),
 			radius(r)
     {}
 
-    Math::point3 sphere::GetCenter() const
+    Math::point3 Sphere::GetCenter() const
     {
         return center;
     }
 
-    double sphere::GetRadius() const
+    double Sphere::GetRadius() const
     {
         return radius;
     }
 
-    bool sphere::hit(const ray& r, double t_min, double t_max, hit_record& rec) const
+    bool Sphere::Hit(const Ray& ray, double t_min, double t_max, HitRecord& rec) const
     {
-	    Math::vec3 oc = r.origin() - center;
-        auto a = r.direction().length_squared();
-        auto half_b = dot(oc, r.direction());
-        auto c = oc.length_squared() - radius * radius;
+	    Math::vec3 oc = ray.GetOrigin() - center;
+        auto a = ray.GetDirection().LengthSquared();
+        auto half_b = Dot(oc, ray.GetDirection());
+        auto c = oc.LengthSquared() - radius * radius;
 
-        auto discriminant = half_b * half_b - a * c;
+        const auto discriminant = std::pow(half_b, 2) - a * c;
         if (discriminant < 0) return false;
-        auto sqrtd = sqrt(discriminant);
+        auto sqrt_discriminant = sqrt(discriminant);
 
         // Find the nearest root that lies in the acceptable range.
-        auto root = (-half_b - sqrtd) / a;
+        auto root = (-half_b - sqrt_discriminant) / a;
         if (root < t_min || t_max < root) {
-            root = (-half_b + sqrtd) / a;
+            root = (-half_b + sqrt_discriminant) / a;
             if (root < t_min || t_max < root)
                 return false;
         }
 
         rec.t = root;
-        rec.p = r.at(rec.t);
-        Math::vec3 outward_normal = (rec.p - center) / radius;
-        rec.set_face_normal(r, outward_normal);
+        rec.p = ray.at(rec.t);
+        const Math::vec3 outwardNormal = (rec.p - center) / radius;
+        rec.SetFaceNormal(ray, outwardNormal);
 
         return true;
     }

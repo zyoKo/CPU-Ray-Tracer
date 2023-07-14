@@ -2,23 +2,26 @@
 
 #include "Math/vec3.h"
 
-class ray
+namespace PathTracer
 {
-public:
-	ray() = default;
+	class Ray
+	{
+	public:
+		Ray() = default;
 
-	ray(const PathTracer::Math::point3& origin, const PathTracer::Math::vec3& direction)
-		:	orig(origin), dir(direction)
-	{}
+		Ray(const Math::point3& origin, const Math::vec3& direction)
+			: orig(origin), dir(direction)
+		{}
 
-	PathTracer::Math::point3 origin() const { return orig; }
-	PathTracer::Math::vec3 direction() const { return dir; }
+		Math::point3 GetOrigin() const { return orig; }
+		Math::vec3 GetDirection() const { return dir; }
 
-	PathTracer::Math::point3 at(double t) const {
-		return orig + t * dir;
-	}
+		PathTracer::Math::point3 at(double t) const {
+			return orig + t * dir;
+		}
 
-private:
-	PathTracer::Math::point3 orig;
-	PathTracer::Math::vec3 dir;
-};
+	private:
+		Math::point3 orig;
+		Math::vec3 dir;
+	};
+}

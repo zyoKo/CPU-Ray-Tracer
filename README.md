@@ -1,17 +1,7 @@
 # PathTracer
 
-Path Tracer made using PeterShirley ray tracing framework.
+Path Tracer made using Peter Shirley ray tracing framework.
 
-### Spheres.glsl
+### AntiAliasing
 
-![Spheres](https://media.giphy.com/media/hQnbZGgSnHtvuz81g3/giphy.gif)
-
-
-### CubeSphereIntersect.glsl
-
-![Cube Sphere Intersection](https://media.giphy.com/media/Qu0pwRknz6nWYyXY4E/giphy.gif)
-
-
-### GrayScaleMandelbulb.glsl
-
-![Grey Mandelbulb](https://media.giphy.com/media/SvRnvBGcpO7eJED92k/giphy.gif)
+![AntiAliasing](https://drive.google.com/file/d/1XmF2HAZRguY_1NwyY6K2Xzp2Yri7AiVb/view?usp=sharing)

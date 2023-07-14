@@ -3,20 +3,23 @@
 #include "Utilities/hittable.h"
 #include "Math/vec3.h"
 
-class sphere : public hittable
+namespace PathTracer
 {
-public:
-	sphere() = default;
-
-	sphere(point3 cen, double r);
-
-	point3 GetCenter() const;
-
-	double GetRadius() const;
-
-	bool hit(const ray& r, double t_min, double t_max, hit_record& rec) const override;
-
-private:
-	point3 center;
-	double radius;
-};
+	class sphere : public hittable
+	{
+	public:
+		sphere() = default;
+	
+		sphere(Math::point3 cen, double r);
+	
+		Math::point3 GetCenter() const;
+	
+		double GetRadius() const;
+	
+		bool hit(const ray& r, double t_min, double t_max, hit_record& rec) const override;
+	
+	private:
+		Math::point3 center;
+		double radius;
+	};
+}

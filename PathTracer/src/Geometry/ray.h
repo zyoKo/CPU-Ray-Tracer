@@ -9,19 +9,17 @@ namespace PathTracer
 	public:
 		Ray() = default;
 
-		Ray(const Math::point3& origin, const Math::vec3& direction)
-			: orig(origin), dir(direction)
-		{}
+		Ray(const Math::point3& origin, const Math::vec3& direction);
 
-		Math::point3 GetOrigin() const { return orig; }
-		Math::vec3 GetDirection() const { return dir; }
+		const Math::point3& GetOrigin() const;
 
-		PathTracer::Math::point3 at(double t) const {
-			return orig + t * dir;
-		}
+		const Math::vec3& GetDirection() const;
+
+		Math::point3 At(double t) const;
 
 	private:
-		Math::point3 orig;
-		Math::vec3 dir;
+		Math::point3 origin;
+
+		Math::vec3 direction;
 	};
 }

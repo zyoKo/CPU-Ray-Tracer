@@ -2,7 +2,7 @@
 
 namespace PathTracer
 {
-	HittableList::HittableList(std::shared_ptr<Hittable> object)
+	HittableList::HittableList(std::shared_ptr<IHittable> object)
 	{
 		Add(object);
 	}
@@ -12,7 +12,7 @@ namespace PathTracer
 		objects.clear();
 	}
 
-	void HittableList::Add(std::shared_ptr<Hittable> object)
+	void HittableList::Add(std::shared_ptr<IHittable> object)
 	{
 		objects.push_back(object);
 	}

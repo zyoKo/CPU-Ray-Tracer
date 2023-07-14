@@ -1,10 +1,11 @@
 #pragma once
 
 #include "Math/vec3.h"
+#include "Math/Constants/Constants.h"
 
 namespace PathTracer
 {
-	inline void WriteColor(std::ostream& out, Math::color pixelColor, int samplesPerPixel)
+	inline void WriteColor(std::ostream& out, const Math::color& pixelColor, int samplesPerPixel)
 	{
 		auto r = pixelColor.x();
 		auto g = pixelColor.y();
@@ -16,9 +17,9 @@ namespace PathTracer
 		g *= scale;
 		b *= scale;
 
-		// Write the translated [0, 255] value of each color component.
-		out << static_cast<int>(255.999 * Clamp(r, 0.0, 0.999)) << ' '
-			<< static_cast<int>(255.999 * Clamp(g, 0.0, 0.999)) << ' '
-			<< static_cast<int>(255.999 * Clamp(b, 0.0, 0.999)) << '\n';
+		// Write the translated [0, 255] value of each color component
+		out << static_cast<int>(255.999 * Math::Clamp(r, 0.0, 0.999)) << ' '
+			<< static_cast<int>(255.999 * Math::Clamp(g, 0.0, 0.999)) << ' '
+			<< static_cast<int>(255.999 * Math::Clamp(b, 0.0, 0.999)) << '\n';
 	}
 }

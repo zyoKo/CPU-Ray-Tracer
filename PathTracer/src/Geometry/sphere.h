@@ -1,16 +1,16 @@
 #pragma once
 
-#include "Utilities/Hittable.h"
+#include "Utilities/Interfaces/IHittable.h"
 #include "Math/vec3.h"
 
 namespace PathTracer
 {
-	class Sphere : public Hittable
+	class Sphere : public IHittable
 	{
 	public:
 		Sphere() = default;
 	
-		Sphere(Math::point3 cen, double r);
+		Sphere(const Math::point3& center, double radius);
 	
 		Math::point3 GetCenter() const;
 	

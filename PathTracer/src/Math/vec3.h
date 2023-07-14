@@ -9,11 +9,15 @@ namespace PathTracer::Math
 	{
 	public:
 		vec3()
-			:	e{ 0,0,0 }
+			:	e{ 0.0, 0.0, 0.0 }
 		{}
 
 		vec3(double e0, double e1, double e2)
 			:	e{ e0, e1, e2 }
+		{}
+
+		vec3(double value)
+			:	e{ value, value, value }
 		{}
 
 		double x() const { return e[0]; }
@@ -56,7 +60,7 @@ namespace PathTracer::Math
 		friend vec3 Cross(const vec3& u, const vec3& v);
 		friend vec3 GetUnitVector(vec3 v);
 
-	public:
+	private:
 		double e[3];
 	};
 

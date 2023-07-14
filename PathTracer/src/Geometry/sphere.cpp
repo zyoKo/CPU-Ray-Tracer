@@ -2,9 +2,9 @@
 
 namespace PathTracer
 {
-    Sphere::Sphere(Math::point3 cen, double r)
-        :   center(cen),
-			radius(r)
+    Sphere::Sphere(const Math::point3& center, double radius)
+        :   center(center),
+			radius(radius)
     {}
 
     Math::point3 Sphere::GetCenter() const
@@ -37,7 +37,7 @@ namespace PathTracer
         }
 
         rec.t = root;
-        rec.p = ray.at(rec.t);
+        rec.p = ray.At(rec.t);
         const Math::vec3 outwardNormal = (rec.p - center) / radius;
         rec.SetFaceNormal(ray, outwardNormal);
 

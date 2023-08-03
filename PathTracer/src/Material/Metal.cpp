@@ -6,7 +6,7 @@ namespace PathTracer
 {
 	Metal::Metal(const Math::color& albedo, double fuzziness)
 		:	albedo(albedo),
-			fuzziness(fuzziness)
+			fuzziness(fuzziness < 1.0 ? fuzziness : 1.0)
 	{
 	}
 

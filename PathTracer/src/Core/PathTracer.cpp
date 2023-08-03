@@ -15,17 +15,17 @@ namespace PathTracer
 	void PathTracer::Init()
 	{
         materialGround       = std::make_shared<Lambertian>(GROUND_SPHERE_ALBEDO);
-        materialCenterSphere = std::make_shared<Lambertian>(CENTER_SPHERE_ALBEDO);
-        materialLeftSphere   = std::make_shared<Metal>(LEFT_SPHERE_ALBEDO, LEFT_SPHERE_FUZZINESS);
+        materialMiddleSphere = std::make_shared<Lambertian>(MIDDLE_SPHERE_ALBEDO);
+        materialLeftSphere   = std::make_shared<Metal>(LEFT_SPHERE_ALBEDO,  LEFT_SPHERE_FUZZINESS);
         materialRightSphere  = std::make_shared<Metal>(RIGHT_SPHERE_ALBEDO, RIGHT_SPHERE_FUZZINESS);
 
 		world.Add(std::make_shared<Sphere>(GROUND_SPHERE_POSITION, GROUND_SPHERE_RADIUS, materialGround));
 		world.Add(std::make_shared<Sphere>(LEFT_SPHERE_POSITION,   NORMAL_SPHERE_RADIUS, materialLeftSphere));
-		world.Add(std::make_shared<Sphere>(CENTER_SPHERE_POSITION,   NORMAL_SPHERE_RADIUS, materialCenterSphere));
-		world.Add(std::make_shared<Sphere>(RIGHT_SPHERE_POSITION,   NORMAL_SPHERE_RADIUS, materialRightSphere));
+		world.Add(std::make_shared<Sphere>(MIDDLE_SPHERE_POSITION, NORMAL_SPHERE_RADIUS, materialMiddleSphere));
+		world.Add(std::make_shared<Sphere>(RIGHT_SPHERE_POSITION,  NORMAL_SPHERE_RADIUS, materialRightSphere));
 	}
 
-	void PathTracer::Run()
+	void PathTracer::Run() const
 	{
         // Render
         std::cout << "P3\n" << IMAGE_WIDTH << " " << IMAGE_HEIGHT << "\n255\n";
@@ -53,13 +53,13 @@ namespace PathTracer
 	}
 
     // Private/Helper Functions
-    Math::color PathTracer::RayColor(const Ray& ray, const IHittable& world, int depth) const
+    Math::color PathTracer::RayColor(const Ray& ray, const IHittable& world, int depth)
     {
         HitRecord hitRecord;
 
         // If exceeded the ray bounce limit, no more light gathered!
         if (depth <= 0)
-            return {0.0, 0.0, 0.0};
+            return { 0.0, 0.0, 0.0 };
 
         if (world.Hit(ray, 0.001, Math::INFINITY_DOUBLE, hitRecord))
         {
@@ -80,6 +80,6 @@ namespace PathTracer
 
         const Math::vec3 unitDirection = GetUnitVector(ray.GetDirection());
         const auto t = 0.5 * (unitDirection.y() + 1.0);
-        return (1.0 - t) * Math::color(1.0, 1.0, 1.0) + t * Math::color(0.5, 0.7, 1.0);
+        return (1.0 - t) * BACKGROUND_COLOR_START + t * BACKGROUND_COLOR_END;
     }
 }

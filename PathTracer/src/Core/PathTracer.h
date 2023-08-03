@@ -14,10 +14,10 @@ namespace PathTracer
 
 		void Init();
 
-		void Run();
+		void Run() const;
 
 	private:
-		Math::color RayColor(const Ray& ray, const IHittable& world, int depth) const;
+		static Math::color RayColor(const Ray& ray, const IHittable& world, int depth);
 
 		HittableList world;
 
@@ -25,7 +25,7 @@ namespace PathTracer
 
 		std::shared_ptr<Lambertian> materialGround;
 
-		std::shared_ptr<Lambertian> materialCenterSphere;
+		std::shared_ptr<Lambertian> materialMiddleSphere;
 
 		std::shared_ptr<Metal> materialLeftSphere;
 

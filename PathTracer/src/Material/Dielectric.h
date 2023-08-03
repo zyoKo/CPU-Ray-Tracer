@@ -14,6 +14,8 @@ namespace PathTracer
 		double GetIndexOfRefraction();
 
 	private:
+		static double ReflectanceSchlick(double cosine, double refractionRatio);
+
 		double indexOfRefraction;
 	};
 }

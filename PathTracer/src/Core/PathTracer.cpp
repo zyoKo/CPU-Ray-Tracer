@@ -21,8 +21,8 @@ namespace PathTracer
         materialDielectric   = std::make_shared<Dielectric>(1.5);
 
 		world.Add(std::make_shared<Sphere>(GROUND_SPHERE_POSITION, GROUND_SPHERE_RADIUS, materialGround));
-		world.Add(std::make_shared<Sphere>(LEFT_SPHERE_POSITION,   NORMAL_SPHERE_RADIUS, materialDielectric));  // Left Sphere
-		world.Add(std::make_shared<Sphere>(MIDDLE_SPHERE_POSITION, NORMAL_SPHERE_RADIUS, materialDielectric));  // Middle Sphere
+		world.Add(std::make_shared<Sphere>(LEFT_SPHERE_POSITION,   -0.5, materialDielectric));  // Left Sphere
+		world.Add(std::make_shared<Sphere>(MIDDLE_SPHERE_POSITION, -0.4, materialDielectric));  // Middle Sphere
 		world.Add(std::make_shared<Sphere>(RIGHT_SPHERE_POSITION,  NORMAL_SPHERE_RADIUS, materialRightSphere)); // Right Sphere
 	}
 

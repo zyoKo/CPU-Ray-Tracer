@@ -12,12 +12,22 @@ namespace PathTracer
 	bool Dielectric::Scatter(const Ray& rayIn, const HitRecord& hitRecord, Math::color& attenuation, Ray& scattered) const
 	{
 		attenuation = Math::color(1.0, 1.0, 1.0);
-		double refractionRatio = hitRecord.frontFace ? (1.0 / indexOfRefraction) : indexOfRefraction;
+		const double refractionRatio = hitRecord.frontFace ? (1.0 / indexOfRefraction) : indexOfRefraction;
 
-		Math::vec3 unitDirection = Math::GetUnitVector(rayIn.GetDirection());
-		Math::vec3 refracted = Math::Refraction(unitDirection, hitRecord.normal, refractionRatio);
+		const Math::vec3 unitDirection = Math::GetUnitVector(rayIn.GetDirection());
+		const double cosTheta = std::fmin(Math::Dot(-unitDirection, hitRecord.normal), 1.0);
+		const double sinTheta = std::sqrt(1.0 - cosTheta * cosTheta);
 
-		scattered = Ray(hitRecord.p, refracted);
+		const bool canRefract = !(refractionRatio * sinTheta > 1.0);
+		Math::vec3 rayDirection;	// either reflection or refraction
+
+		if (canRefract)
+			rayDirection = Refraction(unitDirection, hitRecord.normal, refractionRatio);
+		else
+			rayDirection = Reflection(unitDirection, hitRecord.normal);
+
+		scattered = Ray(hitRecord.p, rayDirection);
+
 		return true;
 	}
 

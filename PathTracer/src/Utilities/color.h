@@ -13,9 +13,9 @@ namespace PathTracer
 
 		// Divide the color by the number of samples
 		const auto scale = 1.0 / samplesPerPixel;
-		r *= scale;
-		g *= scale;
-		b *= scale;
+		r = std::sqrt(scale * r);
+		g = std::sqrt(scale * g);
+		b = std::sqrt(scale * b);
 
 		// Write the translated [0, 255] value of each color component
 		out << static_cast<int>(255.999 * Math::Clamp(r, 0.0, 0.999)) << ' '

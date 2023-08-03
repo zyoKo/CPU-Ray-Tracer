@@ -5,33 +5,24 @@
 
 #include "Constants/Constants.h"
 #include "Geometry/Sphere.h"
+#include "Material/IMaterial.h"
 #include "Math/vec3.h"
 #include "Math/Constants/Constants.h"
 #include "Utilities/color.h"
 
 namespace PathTracer
 {
-    // TODO: Find a better place for this function
-    Math::color RayColor(const Ray& ray, const IHittable& world)
-    {
-        HitRecord hitRecord;
-
-        if (world.Hit(ray, 0, Math::INFINITY_DOUBLE, hitRecord))
-        {
-            return 0.5 * (hitRecord.normal + Math::color(1.0));
-        }
-
-        const Math::vec3 unitDirection = GetUnitVector(ray.GetDirection());
-        const auto t = 0.5 * (unitDirection.y() + 1.0);
-        return (1.0 - t) * Math::color(1.0, 1.0, 1.0) + t * Math::color(0.5, 0.7, 1.0);
-    }
-
 	void PathTracer::Init()
 	{
-		world.Add(std::make_shared<Sphere>(Math::point3( 0.0,    0.0, -1.0),   0.5));
-		world.Add(std::make_shared<Sphere>(Math::point3( 0.0, -100.5, -1.0), 100.0));
-		world.Add(std::make_shared<Sphere>(Math::point3(-1.0,    0.0, -1.0),   0.5));
-		world.Add(std::make_shared<Sphere>(Math::point3( 1.0,    0.0, -1.0),   0.5));
+        materialGround       = std::make_shared<Lambertian>(GROUND_SPHERE_ALBEDO);
+        materialCenterSphere = std::make_shared<Lambertian>(CENTER_SPHERE_ALBEDO);
+        materialLeftSphere   = std::make_shared<Metal>(LEFT_SPHERE_ALBEDO, LEFT_SPHERE_FUZZINESS);
+        materialRightSphere  = std::make_shared<Metal>(RIGHT_SPHERE_ALBEDO, RIGHT_SPHERE_FUZZINESS);
+
+		world.Add(std::make_shared<Sphere>(GROUND_SPHERE_POSITION, GROUND_SPHERE_RADIUS, materialGround));
+		world.Add(std::make_shared<Sphere>(LEFT_SPHERE_POSITION,   NORMAL_SPHERE_RADIUS, materialLeftSphere));
+		world.Add(std::make_shared<Sphere>(CENTER_SPHERE_POSITION,   NORMAL_SPHERE_RADIUS, materialCenterSphere));
+		world.Add(std::make_shared<Sphere>(RIGHT_SPHERE_POSITION,   NORMAL_SPHERE_RADIUS, materialRightSphere));
 	}
 
 	void PathTracer::Run()
@@ -51,7 +42,7 @@ namespace PathTracer
                     const auto v = (j + Math::RandomDoublePrecise()) / (IMAGE_HEIGHT - 1);
 
                     Ray ray = camera.GetRay(u, v);
-                    pixelColor += RayColor(ray, world);
+                    pixelColor += RayColor(ray, world, MAX_DEPTH);
                 }
 
                 WriteColor(std::cout, pixelColor, SAMPLES_PER_PIXEL);
@@ -60,4 +51,35 @@ namespace PathTracer
 
         std::cerr << "\nDone.\n";
 	}
+
+    // Private/Helper Functions
+    Math::color PathTracer::RayColor(const Ray& ray, const IHittable& world, int depth) const
+    {
+        HitRecord hitRecord;
+
+        // If exceeded the ray bounce limit, no more light gathered!
+        if (depth <= 0)
+            return {0.0, 0.0, 0.0};
+
+        if (world.Hit(ray, 0.001, Math::INFINITY_DOUBLE, hitRecord))
+        {
+            //const Math::point3 target = hitRecord.p + hitRecord.normal + Math::RandomUnitVector();      // True Lambertian Reflection
+            //const Math::point3 target = hitRecord.p + hitRecord.normal + Math::RandomInUnitSphere();    // Rejection Method
+            //const Math::point3 target = hitRecord.p + hitRecord.normal + RandomInHemisphere(hitRecord.normal); // Old-Style Diffuse Method
+            
+            //return 0.5 * RayColor(Ray(hitRecord.p, target - hitRecord.p), world, depth - 1);
+
+            Ray scattered;
+            Math::color attenuation;
+
+            if (hitRecord.material->Scatter(ray, hitRecord, attenuation, scattered))
+				return attenuation * RayColor(scattered, world, depth - 1);
+
+            return { 0.0, 0.0, 0.0 };
+        }
+
+        const Math::vec3 unitDirection = GetUnitVector(ray.GetDirection());
+        const auto t = 0.5 * (unitDirection.y() + 1.0);
+        return (1.0 - t) * Math::color(1.0, 1.0, 1.0) + t * Math::color(0.5, 0.7, 1.0);
+    }
 }

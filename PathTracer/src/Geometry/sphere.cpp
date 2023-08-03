@@ -2,9 +2,10 @@
 
 namespace PathTracer
 {
-    Sphere::Sphere(const Math::point3& center, double radius)
+    Sphere::Sphere(const Math::point3& center, double radius, std::shared_ptr<IMaterial> material)
         :   center(center),
-			radius(radius)
+			radius(radius),
+			material(material)
     {}
 
     Math::point3 Sphere::GetCenter() const
@@ -17,7 +18,7 @@ namespace PathTracer
         return radius;
     }
 
-    bool Sphere::Hit(const Ray& ray, double t_min, double t_max, HitRecord& rec) const
+    bool Sphere::Hit(const Ray& ray, double t_min, double t_max, HitRecord& hitRecord) const
     {
 	    Math::vec3 oc = ray.GetOrigin() - center;
         auto a = ray.GetDirection().LengthSquared();
@@ -36,10 +37,11 @@ namespace PathTracer
                 return false;
         }
 
-        rec.t = root;
-        rec.p = ray.At(rec.t);
-        const Math::vec3 outwardNormal = (rec.p - center) / radius;
-        rec.SetFaceNormal(ray, outwardNormal);
+        hitRecord.t = root;
+        hitRecord.p = ray.At(hitRecord.t);
+        const Math::vec3 outwardNormal = (hitRecord.p - center) / radius;
+        hitRecord.SetFaceNormal(ray, outwardNormal);
+        hitRecord.material = material;
 
         return true;
     }

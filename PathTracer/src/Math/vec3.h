@@ -3,6 +3,8 @@
 #include <cmath>
 #include <iostream>
 
+#include "Constants/Constants.h"
+
 namespace PathTracer::Math
 {
 	class vec3
@@ -48,6 +50,21 @@ namespace PathTracer::Math
 
 		double GetLength() const { return sqrt(LengthSquared()); }
 		double LengthSquared() const { return e[0] * e[0] + e[1] * e[1] + e[2] * e[2]; }
+
+		static vec3 Random() { return {RandomDoublePrecise(),RandomDoublePrecise(), RandomDoublePrecise()}; }
+		static vec3 Random(double min, double max)
+		{
+			return {	RandomDoubleInRangePrecise(min, max),
+						RandomDoubleInRangePrecise(min, max),
+						RandomDoubleInRangePrecise(min, max)};
+		}
+
+		bool NearZero() const
+		{
+			// Return true if vector is close to zero in all dimensions
+			constexpr auto s = 1e-8;
+			return (std::fabs(e[0]) < s) && (fabs(e[1]) < s) && (fabs(e[2]) < s);
+		}
 
 		friend std::ostream& operator<<(std::ostream& out, const vec3& v);
 		friend vec3 operator+(const vec3& u, const vec3& v);
@@ -101,4 +118,35 @@ namespace PathTracer::Math
 	}
 
 	inline vec3 GetUnitVector(vec3 v) { return v / v.GetLength(); }
+
+	inline vec3 RandomInUnitSphere()
+	{
+		while(true)
+		{
+			auto p = vec3::Random(-1.0, 1.0);
+			if (p.LengthSquared() >= 1.0)
+				continue;
+			return p;
+		}
+	}
+
+	inline vec3 RandomUnitVector()
+	{
+		return GetUnitVector(RandomInUnitSphere());
+	}
+
+	inline vec3 RandomInHemisphere(const vec3& normal)
+	{
+		const vec3 inUnitSphere = RandomInUnitSphere();
+
+		if (Dot(inUnitSphere, normal) > 0.0)	// In the same hemisphere as the normal
+			return inUnitSphere;
+		else
+			return -inUnitSphere;
+	}
+
+	inline vec3 MirrorReflection(const vec3& v, const vec3& n)
+	{
+		return v - 2 * Dot(v, n) * n;	// 9.4
+	}
 }

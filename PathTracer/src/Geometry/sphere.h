@@ -10,17 +10,19 @@ namespace PathTracer
 	public:
 		Sphere() = default;
 	
-		Sphere(const Math::point3& center, double radius);
+		Sphere(const Math::point3& center, double radius, std::shared_ptr<IMaterial> material);
 	
 		Math::point3 GetCenter() const;
 	
 		double GetRadius() const;
 	
-		bool Hit(const Ray& ray, double t_min, double t_max, HitRecord& rec) const override;
+		bool Hit(const Ray& ray, double t_min, double t_max, HitRecord& hitRecord) const override;
 	
 	private:
 		Math::point3 center;
 
 		double radius;
+
+		std::shared_ptr<IMaterial> material;
 	};
 }

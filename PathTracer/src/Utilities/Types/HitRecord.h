@@ -4,11 +4,15 @@
 
 namespace PathTracer
 {
+	class IMaterial;
+
 	struct HitRecord
 	{
 		Math::point3 p;
 
 		Math::vec3 normal;
+
+		std::shared_ptr<IMaterial> material;
 
 		double t;
 

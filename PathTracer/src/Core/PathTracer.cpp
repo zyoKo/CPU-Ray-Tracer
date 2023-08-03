@@ -18,11 +18,12 @@ namespace PathTracer
         materialMiddleSphere = std::make_shared<Lambertian>(MIDDLE_SPHERE_ALBEDO);
         materialLeftSphere   = std::make_shared<Metal>(LEFT_SPHERE_ALBEDO,  LEFT_SPHERE_FUZZINESS);
         materialRightSphere  = std::make_shared<Metal>(RIGHT_SPHERE_ALBEDO, RIGHT_SPHERE_FUZZINESS);
+        materialDielectric   = std::make_shared<Dielectric>(1.5);
 
 		world.Add(std::make_shared<Sphere>(GROUND_SPHERE_POSITION, GROUND_SPHERE_RADIUS, materialGround));
-		world.Add(std::make_shared<Sphere>(LEFT_SPHERE_POSITION,   NORMAL_SPHERE_RADIUS, materialLeftSphere));
-		world.Add(std::make_shared<Sphere>(MIDDLE_SPHERE_POSITION, NORMAL_SPHERE_RADIUS, materialMiddleSphere));
-		world.Add(std::make_shared<Sphere>(RIGHT_SPHERE_POSITION,  NORMAL_SPHERE_RADIUS, materialRightSphere));
+		world.Add(std::make_shared<Sphere>(LEFT_SPHERE_POSITION,   NORMAL_SPHERE_RADIUS, materialDielectric));  // Left Sphere
+		world.Add(std::make_shared<Sphere>(MIDDLE_SPHERE_POSITION, NORMAL_SPHERE_RADIUS, materialDielectric));  // Middle Sphere
+		world.Add(std::make_shared<Sphere>(RIGHT_SPHERE_POSITION,  NORMAL_SPHERE_RADIUS, materialRightSphere)); // Right Sphere
 	}
 
 	void PathTracer::Run() const

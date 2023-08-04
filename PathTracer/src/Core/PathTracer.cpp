@@ -3,6 +3,7 @@
 #include <iostream>
 #include <memory>
 
+#include "Camera/Constants/Constants.h"
 #include "Constants/Constants.h"
 #include "Geometry/Sphere.h"
 #include "Material/IMaterial.h"
@@ -12,6 +13,12 @@
 
 namespace PathTracer
 {
+    PathTracer::PathTracer()
+	    :   camera(LOOK_FROM, LOOK_AT, VIEW_UP, FIELD_OF_VIEW, ASPECT_RATIO)
+    {
+	    
+    }
+
 	void PathTracer::Init()
 	{
         materialGround       = std::make_shared<Lambertian>(GROUND_SPHERE_ALBEDO);
@@ -21,9 +28,10 @@ namespace PathTracer
         materialDielectric   = std::make_shared<Dielectric>(INDEX_OF_REFRACTION);
 
 		world.Add(std::make_shared<Sphere>(GROUND_SPHERE_POSITION,  GROUND_SPHERE_RADIUS, materialGround));
-		world.Add(std::make_shared<Sphere>(LEFT_SPHERE_POSITION,   -NORMAL_SPHERE_RADIUS, materialDielectric));  // Left Sphere
-		world.Add(std::make_shared<Sphere>(MIDDLE_SPHERE_POSITION,  HOLLOW_GLASS_RADIUS,  materialDielectric));  // Middle Sphere
-		world.Add(std::make_shared<Sphere>(RIGHT_SPHERE_POSITION,   NORMAL_SPHERE_RADIUS, materialRightSphere)); // Right Sphere
+		world.Add(std::make_shared<Sphere>(MIDDLE_SPHERE_POSITION,  NORMAL_SPHERE_RADIUS, materialMiddleSphere));   // Middle Sphere
+		world.Add(std::make_shared<Sphere>(LEFT_SPHERE_POSITION,    NORMAL_SPHERE_RADIUS, materialDielectric));     // Left Sphere
+		world.Add(std::make_shared<Sphere>(LEFT_SPHERE_POSITION,    HOLLOW_GLASS_RADIUS,  materialDielectric));     // Left Sphere
+		world.Add(std::make_shared<Sphere>(RIGHT_SPHERE_POSITION,   NORMAL_SPHERE_RADIUS, materialRightSphere));    // Right Sphere
 	}
 
 	void PathTracer::Run() const
@@ -64,6 +72,7 @@ namespace PathTracer
 
         if (world.Hit(ray, 0.001, Math::INFINITY_DOUBLE, hitRecord))
         {
+            // TODO: Apply different Diffuse Methods and test results with them
             //const Math::point3 target = hitRecord.p + hitRecord.normal + Math::RandomUnitVector();      // True Lambertian Reflection
             //const Math::point3 target = hitRecord.p + hitRecord.normal + Math::RandomInUnitSphere();    // Rejection Method
             //const Math::point3 target = hitRecord.p + hitRecord.normal + RandomInHemisphere(hitRecord.normal); // Old-Style Diffuse Method

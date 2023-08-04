@@ -9,9 +9,9 @@ namespace PathTracer
 	class Camera
 	{
 	public:
-		Camera();
+		Camera(const Math::point3& lookFrom, const Math::point3& lookAt, const Math::vec3& viewUp, double fieldOfView, double aspectRatio);
 
-		Ray GetRay(double u, double v) const;
+		Ray GetRay(double s, double t) const;
 
 	private:
 		Math::point3 origin;

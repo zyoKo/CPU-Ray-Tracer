@@ -11,7 +11,7 @@ namespace PathTracer
 	class PathTracer
 	{
 	public:
-		PathTracer() = default;
+		PathTracer();
 
 		void Init();
 

@@ -14,15 +14,16 @@ namespace PathTracer
 	const Math::color BACKGROUND_COLOR_END   = Math::color(0.5, 0.7, 1.0);
 
 	// World Coordinates
+	//const double R = std::cos(Math::PI / 4.0);
 	const Math::point3 GROUND_SPHERE_POSITION = Math::point3( 0.0, -100.5, -1.0);
-	const Math::point3 LEFT_SPHERE_POSITION   = Math::point3(-1.0,    0.0, -1.0);
+	const Math::point3 LEFT_SPHERE_POSITION   = Math::point3(-1.05,   0.0, -1.0);
 	const Math::point3 MIDDLE_SPHERE_POSITION = Math::point3( 0.0,    0.0, -1.0);
 	const Math::point3 RIGHT_SPHERE_POSITION  = Math::point3( 1.0,    0.0, -1.0);
 
 	// Sphere Radius
 	constexpr double GROUND_SPHERE_RADIUS = 100.0;
-	constexpr double NORMAL_SPHERE_RADIUS =   0.5;
-	constexpr double HOLLOW_GLASS_RADIUS  =  -0.4;
+	constexpr double NORMAL_SPHERE_RADIUS =	  0.5;
+	constexpr double HOLLOW_GLASS_RADIUS  =  -0.45;
 
 	// Index Of Refraction for Glass Spheres
 	constexpr double INDEX_OF_REFRACTION = 1.5;
@@ -35,5 +36,5 @@ namespace PathTracer
 
 	// Metal Sphere Fuzziness
 	constexpr double LEFT_SPHERE_FUZZINESS  = 0.3;
-	constexpr double RIGHT_SPHERE_FUZZINESS = 1.0;
+	constexpr double RIGHT_SPHERE_FUZZINESS = 0.0;
 }

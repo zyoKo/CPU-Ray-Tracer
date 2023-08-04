@@ -18,6 +18,7 @@ namespace PathTracer
 	// Sphere Radius
 	constexpr double GROUND_SPHERE_RADIUS = 100.0;
 	constexpr double NORMAL_SPHERE_RADIUS = 0.5;
+	constexpr double HOLLOW_GLASS_RADIUS = -0.4;
 
 	// Background Color
 	const Math::color BACKGROUND_COLOR_START = Math::color(1.0, 1.0, 1.0);

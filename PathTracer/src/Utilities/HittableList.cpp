@@ -17,19 +17,19 @@ namespace PathTracer
 		objects.push_back(object);
 	}
 
-	bool HittableList::Hit(const Ray& r, double t_min, double t_max, HitRecord& rec) const
+	bool HittableList::Hit(const Ray& ray, double tMin, double tMax, HitRecord& hitRecord) const
 	{
 		HitRecord tempHitRecord;
 		bool hitAnything = false;
-		auto closestSoFar = t_max;
+		auto closestSoFar = tMax;
 
 		for (const auto& object : objects)
 		{
-			if (object->Hit(r, t_min, closestSoFar, tempHitRecord))
+			if (object->Hit(ray, tMin, closestSoFar, tempHitRecord))
 			{
 				hitAnything = true;
 				closestSoFar = tempHitRecord.t;
-				rec = tempHitRecord;
+				hitRecord = tempHitRecord;
 			}
 		}
 

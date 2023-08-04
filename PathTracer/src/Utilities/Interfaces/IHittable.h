@@ -12,6 +12,6 @@ namespace PathTracer
 
 		virtual ~IHittable() = default;
 
-		virtual bool Hit(const Ray& r, double t_min, double t_max, HitRecord& rec) const = 0;
+		virtual bool Hit(const Ray& ray, double tMin, double tMax, HitRecord& hitRecord) const = 0;
 	};
 }

@@ -14,7 +14,7 @@
 namespace PathTracer
 {
     PathTracer::PathTracer()
-	    :   camera(LOOK_FROM, LOOK_AT, VIEW_UP, FIELD_OF_VIEW, ASPECT_RATIO)
+	    :   camera(LOOK_FROM, LOOK_AT, VIEW_UP, FIELD_OF_VIEW, ASPECT_RATIO, APERTURE, FOCUS_DISTANCE)
     {
 	    
     }

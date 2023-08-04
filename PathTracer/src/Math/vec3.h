@@ -141,8 +141,8 @@ namespace PathTracer::Math
 
 		if (Dot(inUnitSphere, normal) > 0.0)	// In the same hemisphere as the normal
 			return inUnitSphere;
-		else
-			return -inUnitSphere;
+		
+		return -inUnitSphere;
 	}
 
 	inline vec3 Reflection(const vec3& v, const vec3& n)
@@ -156,5 +156,20 @@ namespace PathTracer::Math
 		const vec3 rayOutPerpendicular = etaiOverEtat * (uv + cosTheta * n);
 		const vec3 rayOutParallel = -std::sqrt(std::fabs(1.0 - rayOutPerpendicular.LengthSquared())) * n;
 		return rayOutPerpendicular + rayOutParallel;
+	}
+
+	inline vec3 RandomInUnitDisk()
+	{	// Requires only X and Y as random values as it's a random in unit(-1, 1) "disk"
+		while (true)
+		{
+			auto randomVec3_XY = vec3(RandomDoubleInRangePrecise(-1.0, 1.0),
+									  RandomDoubleInRangePrecise(-1.0, 1.0),
+									  0.0);
+
+			if (randomVec3_XY.LengthSquared() >= 1.0)
+				continue;
+
+			return randomVec3_XY;
+		}
 	}
 }

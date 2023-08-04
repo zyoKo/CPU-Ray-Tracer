@@ -18,7 +18,7 @@ namespace PathTracer
 
 		void Add(std::shared_ptr<IHittable> object);
 
-		bool Hit(const Ray& r, double t_min, double t_max, HitRecord& rec) const override;
+		bool Hit(const Ray& ray, double tMin, double tMax, HitRecord& hitRecord) const override;
 
 	private:
 		std::vector<std::shared_ptr<IHittable>> objects;

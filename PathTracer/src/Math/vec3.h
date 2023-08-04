@@ -145,8 +145,16 @@ namespace PathTracer::Math
 			return -inUnitSphere;
 	}
 
-	inline vec3 MirrorReflection(const vec3& v, const vec3& n)
+	inline vec3 Reflection(const vec3& v, const vec3& n)
 	{
 		return v - 2 * Dot(v, n) * n;	// 9.4
+	}
+
+	inline vec3 Refraction(const vec3& uv, const vec3& n, double etaiOverEtat)
+	{
+		const auto cosTheta = std::fmin(Dot(-uv, n), 1.0);
+		const vec3 rayOutPerpendicular = etaiOverEtat * (uv + cosTheta * n);
+		const vec3 rayOutParallel = -std::sqrt(std::fabs(1.0 - rayOutPerpendicular.LengthSquared())) * n;
+		return rayOutPerpendicular + rayOutParallel;
 	}
 }

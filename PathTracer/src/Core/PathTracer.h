@@ -2,6 +2,7 @@
 
 #include "Utilities/HittableList.h"
 #include "Camera/Camera.h"
+#include "Material/Dielectric.h"
 #include "Material/Lambertian.h"
 #include "Material/Metal.h"
 
@@ -30,5 +31,7 @@ namespace PathTracer
 		std::shared_ptr<Metal> materialLeftSphere;
 
 		std::shared_ptr<Metal> materialRightSphere;
+
+		std::shared_ptr<Dielectric> materialDielectric;
 	};
 }

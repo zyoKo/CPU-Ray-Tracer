@@ -1,5 +1,4 @@
 #include "Camera.h"
-#include "Constants/Constants.h"
 
 namespace PathTracer
 {
@@ -8,25 +7,32 @@ namespace PathTracer
 		const Math::point3& lookAt,
 		const Math::vec3& viewUp,
 		double fieldOfView,
-		double aspectRatio)
+		double aspectRatio,
+		double aperture,
+		double focusDistance)
 	{
 		const auto theta = Math::DegreesToRadians(fieldOfView);
 		const auto h = std::tan(theta / 2.0);
 		const auto viewportHeight = 2.0 * h;
 		const auto viewportWidth = aspectRatio * viewportHeight;
 
-		const auto w = GetUnitVector(lookFrom - lookAt);
-		const auto u = GetUnitVector(Cross(viewUp, w));
-		const auto v = Cross(w, u);
+		w = GetUnitVector(lookFrom - lookAt);
+		u = GetUnitVector(Cross(viewUp, w));
+		v = Cross(w, u);
 
 		origin		= lookFrom;
-		horizontal	= viewportWidth  * u;
-		vertical	= viewportHeight * v;
-		lowerLeftCorner = origin - horizontal / 2.0 - vertical / 2.0 - w;
+		horizontal	= focusDistance * viewportWidth  * u;
+		vertical	= focusDistance * viewportHeight * v;
+		lowerLeftCorner = origin - horizontal / 2.0 - vertical / 2.0 - focusDistance * w;
+
+		lensRadius = aperture / 2.0;
 	}
 
 	Ray Camera::GetRay(double s, double t) const
 	{
-		return { origin, lowerLeftCorner + s * horizontal + t * vertical - origin };
+		const Math::vec3 random = lensRadius * Math::RandomInUnitDisk();
+		const Math::vec3 offset = u * random.x() + v * random.y();
+
+		return { origin + offset, lowerLeftCorner + s * horizontal + t * vertical - origin - offset };
 	}
 }

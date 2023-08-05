@@ -6,10 +6,10 @@
 #include "Camera/Constants/Constants.h"
 #include "Constants/Constants.h"
 #include "Geometry/Sphere.h"
-#include "Material/IMaterial.h"
+#include "Material/Interface/IMaterial.h"
 #include "Math/vec3.h"
 #include "Math/Constants/Constants.h"
-#include "Utilities/color.h"
+#include "Utilities/Color.h"
 
 namespace PathTracer
 {
@@ -67,19 +67,6 @@ namespace PathTracer
 
         auto material3 = std::make_shared<Metal>(Math::color(0.7, 0.6, 0.5), 0.0);
         world.Add(std::make_shared<Sphere>(Math::point3(4, 1, 0), 1.0, material3));
-
-        /*
-        auto materialMiddleSphere = std::make_shared<Lambertian>(MIDDLE_SPHERE_ALBEDO);
-		world.Add(std::make_shared<Sphere>(MIDDLE_SPHERE_POSITION, NORMAL_SPHERE_RADIUS, materialMiddleSphere));   // Middle Sphere
-
-    	auto materialLeftSphere = std::make_shared<Metal>(LEFT_SPHERE_ALBEDO,  LEFT_SPHERE_FUZZINESS);
-        auto materialDielectric = std::make_shared<Dielectric>(INDEX_OF_REFRACTION);
-		world.Add(std::make_shared<Sphere>(LEFT_SPHERE_POSITION, NORMAL_SPHERE_RADIUS, materialDielectric));     // Left Sphere
-		world.Add(std::make_shared<Sphere>(LEFT_SPHERE_POSITION, HOLLOW_GLASS_RADIUS,  materialDielectric));     // Left Sphere
-
-    	auto materialRightSphere = std::make_shared<Metal>(RIGHT_SPHERE_ALBEDO, RIGHT_SPHERE_FUZZINESS);
-		world.Add(std::make_shared<Sphere>(RIGHT_SPHERE_POSITION, NORMAL_SPHERE_RADIUS, materialRightSphere));    // Right Sphere
-		*/
 	}
 
 	void PathTracer::Run() const

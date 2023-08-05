@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IMaterial.h"
+#include "Interface/IMaterial.h"
 
 namespace PathTracer
 {

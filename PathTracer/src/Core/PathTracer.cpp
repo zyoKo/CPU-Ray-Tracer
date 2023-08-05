@@ -21,17 +21,65 @@ namespace PathTracer
 
 	void PathTracer::Init()
 	{
-        materialGround       = std::make_shared<Lambertian>(GROUND_SPHERE_ALBEDO);
-        materialMiddleSphere = std::make_shared<Lambertian>(MIDDLE_SPHERE_ALBEDO);
-        materialLeftSphere   = std::make_shared<Metal>(LEFT_SPHERE_ALBEDO,  LEFT_SPHERE_FUZZINESS);
-        materialRightSphere  = std::make_shared<Metal>(RIGHT_SPHERE_ALBEDO, RIGHT_SPHERE_FUZZINESS);
-        materialDielectric   = std::make_shared<Dielectric>(INDEX_OF_REFRACTION);
+        auto materialGround = std::make_shared<Lambertian>(GROUND_SPHERE_ALBEDO);
+		world.Add(std::make_shared<Sphere>(GROUND_SPHERE_POSITION, GROUND_SPHERE_RADIUS, materialGround));
 
-		world.Add(std::make_shared<Sphere>(GROUND_SPHERE_POSITION,  GROUND_SPHERE_RADIUS, materialGround));
-		world.Add(std::make_shared<Sphere>(MIDDLE_SPHERE_POSITION,  NORMAL_SPHERE_RADIUS, materialMiddleSphere));   // Middle Sphere
-		world.Add(std::make_shared<Sphere>(LEFT_SPHERE_POSITION,    NORMAL_SPHERE_RADIUS, materialDielectric));     // Left Sphere
-		world.Add(std::make_shared<Sphere>(LEFT_SPHERE_POSITION,    HOLLOW_GLASS_RADIUS,  materialDielectric));     // Left Sphere
-		world.Add(std::make_shared<Sphere>(RIGHT_SPHERE_POSITION,   NORMAL_SPHERE_RADIUS, materialRightSphere));    // Right Sphere
+        for (int x = -11; x < 11; ++x)
+        {
+	        for (int y = -11; y < 11; ++y)
+	        {
+                const auto chooseMat = Math::RandomDoublePrecise();
+                Math::point3 center(x + 0.9 * Math::RandomDoublePrecise(), 0.2, y + 0.9 * Math::RandomDoublePrecise());
+
+                if ((center - Math::point3(4, 0.2, 0)).GetLength() > 0.9)
+                {
+                    std::shared_ptr<IMaterial> sphereMaterial;
+
+                    if (chooseMat < 0.8)    // diffuse
+                    {
+                        auto albedo = Math::color::Random() * Math::color::Random();
+                        sphereMaterial = std::make_shared<Lambertian>(albedo);
+                        world.Add(std::make_shared<Sphere>(center, 0.2, sphereMaterial));
+                    }
+                    else if (chooseMat < 0.95) 
+                    {
+                        // metal
+                        auto albedo = Math::color::Random(0.5, 1);
+                        auto fuzz = Math::RandomDoubleInRangePrecise(0, 0.5);
+                        sphereMaterial = std::make_shared<Metal>(albedo, fuzz);
+                        world.Add(std::make_shared<Sphere>(center, 0.2, sphereMaterial));
+                    }
+                    else 
+                    {
+                        // glass
+                        sphereMaterial = std::make_shared<Dielectric>(1.5);
+                        world.Add(std::make_shared<Sphere>(center, 0.2, sphereMaterial));
+                    }
+                }
+	        }
+        }
+
+        auto material1 = std::make_shared<Dielectric>(1.5);
+        world.Add(std::make_shared<Sphere>(Math::point3(0, 1, 0), 1.0, material1));
+
+        auto material2 = std::make_shared<Lambertian>(Math::color(0.4, 0.2, 0.1));
+        world.Add(std::make_shared<Sphere>(Math::point3(-4, 1, 0), 1.0, material2));
+
+        auto material3 = std::make_shared<Metal>(Math::color(0.7, 0.6, 0.5), 0.0);
+        world.Add(std::make_shared<Sphere>(Math::point3(4, 1, 0), 1.0, material3));
+
+        /*
+        auto materialMiddleSphere = std::make_shared<Lambertian>(MIDDLE_SPHERE_ALBEDO);
+		world.Add(std::make_shared<Sphere>(MIDDLE_SPHERE_POSITION, NORMAL_SPHERE_RADIUS, materialMiddleSphere));   // Middle Sphere
+
+    	auto materialLeftSphere = std::make_shared<Metal>(LEFT_SPHERE_ALBEDO,  LEFT_SPHERE_FUZZINESS);
+        auto materialDielectric = std::make_shared<Dielectric>(INDEX_OF_REFRACTION);
+		world.Add(std::make_shared<Sphere>(LEFT_SPHERE_POSITION, NORMAL_SPHERE_RADIUS, materialDielectric));     // Left Sphere
+		world.Add(std::make_shared<Sphere>(LEFT_SPHERE_POSITION, HOLLOW_GLASS_RADIUS,  materialDielectric));     // Left Sphere
+
+    	auto materialRightSphere = std::make_shared<Metal>(RIGHT_SPHERE_ALBEDO, RIGHT_SPHERE_FUZZINESS);
+		world.Add(std::make_shared<Sphere>(RIGHT_SPHERE_POSITION, NORMAL_SPHERE_RADIUS, materialRightSphere));    // Right Sphere
+		*/
 	}
 
 	void PathTracer::Run() const

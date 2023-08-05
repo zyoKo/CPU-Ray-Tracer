@@ -23,15 +23,5 @@ namespace PathTracer
 		HittableList world;
 
 		Camera camera;
-
-		std::shared_ptr<Lambertian> materialGround;
-
-		std::shared_ptr<Lambertian> materialMiddleSphere;
-
-		std::shared_ptr<Metal> materialLeftSphere;
-
-		std::shared_ptr<Metal> materialRightSphere;
-
-		std::shared_ptr<Dielectric> materialDielectric;
 	};
 }

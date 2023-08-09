@@ -26,7 +26,7 @@ namespace PathTracer
 		else
 			rayDirection = Refraction(unitDirection, hitRecord.normal, refractionRatio);
 
-		scattered = Ray(hitRecord.p, rayDirection);
+		scattered = Ray(hitRecord.p, rayDirection, rayIn.GetTime());
 
 		return true;
 	}

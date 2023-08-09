@@ -16,7 +16,7 @@ namespace PathTracer
 		if (scatterDirection.NearZero())
 			scatterDirection = hitRecord.normal;
 
-		scattered = Ray(hitRecord.p, scatterDirection);
+		scattered = Ray(hitRecord.p, scatterDirection, rayIn.GetTime());
 		attenuation = albedo;
 		return true;
 	}

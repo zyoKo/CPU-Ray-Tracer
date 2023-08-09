@@ -10,13 +10,15 @@ namespace PathTracer
 	{
 	public:
 		Camera(
-			const Math::point3& lookFrom, 
-			const Math::point3& lookAt, 
-			const Math::vec3& viewUp, 
-			double fieldOfView, 
+			const Math::point3& lookFrom,
+			const Math::point3& lookAt,
+			const Math::vec3& viewUp,
+			double fieldOfView,
 			double aspectRatio,
 			double aperture,
-			double focusDistance);
+			double focusDistance,
+			double captureStart,
+			double captureEnd);
 
 		Ray GetRay(double s, double t) const;
 
@@ -32,5 +34,7 @@ namespace PathTracer
 		Math::vec3 u, v, w;
 
 		double lensRadius;
+
+		double captureStart, captureEnd;	// shutter open/close times
 	};
 }

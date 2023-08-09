@@ -3,11 +3,11 @@
 namespace PathTracer
 {
 	// Image
-	constexpr auto ASPECT_RATIO_IMAGE = 16.0 / 9.0;
-	constexpr int IMAGE_WIDTH = 1200;
-	constexpr int IMAGE_HEIGHT = static_cast<int>(IMAGE_WIDTH / ASPECT_RATIO_IMAGE);
-	constexpr int SAMPLES_PER_PIXEL = 500;    // anti-aliasing
-	constexpr int MAX_DEPTH = 50;
+	static constexpr auto ASPECT_RATIO_IMAGE = 16.0 / 9.0;
+	static constexpr int IMAGE_WIDTH = 400;
+	static constexpr int IMAGE_HEIGHT = static_cast<int>(IMAGE_WIDTH / ASPECT_RATIO_IMAGE);
+	static constexpr int SAMPLES_PER_PIXEL = 100;    // anti-aliasing
+	static constexpr int MAX_DEPTH = 50;
 
 	// Background Color
 	const Math::color BACKGROUND_COLOR_START = Math::color(1.0, 1.0, 1.0);

@@ -1,27 +1,18 @@
-#include "Sphere.h"
+#include "MovingSphere.h"
 
 namespace PathTracer
 {
-    Sphere::Sphere(const Math::point3& center, double radius, std::shared_ptr<IMaterial> material)
-        :   center(center),
-			radius(radius),
-			material(material)
-    {
-    }
+	MovingSphere::MovingSphere(
+		Math::point3 center0, Math::point3 center1, 
+		double timeAtCenter0, double timeAtCenter1,
+		double radius, 
+		std::shared_ptr<IMaterial> material)
+		:	center0(center0), center1(center1), timeAtCenter0(timeAtCenter0), timeAtCenter1(timeAtCenter1), radius(radius), material(material)
+	{}
 
-    Math::point3 Sphere::GetCenter() const
-    {
-        return center;
-    }
-
-    double Sphere::GetRadius() const
-    {
-        return radius;
-    }
-
-    bool Sphere::Hit(const Ray& ray, double tMin, double tMax, HitRecord& hitRecord) const
-    {
-	    const Math::vec3 oc = ray.GetOrigin() - center;
+	bool MovingSphere::Hit(const Ray& ray, double tMin, double tMax, HitRecord& hitRecord) const
+	{
+        const Math::vec3 oc = ray.GetOrigin() - GetPositionAtTime(ray.GetTime());
         const auto a = ray.GetDirection().LengthSquared();
         const auto half_b = Dot(oc, ray.GetDirection());
         const auto c = oc.LengthSquared() - radius * radius;
@@ -40,10 +31,15 @@ namespace PathTracer
 
         hitRecord.t = root;
         hitRecord.p = ray.At(hitRecord.t);
-        const auto outwardNormal = (hitRecord.p - center) / radius;
+        const auto outwardNormal = (hitRecord.p - GetPositionAtTime(ray.GetTime())) / radius;
         hitRecord.SetFaceNormal(ray, outwardNormal);
         hitRecord.material = material;
 
         return true;
-    }
+	}
+
+	Math::point3 MovingSphere::GetPositionAtTime(double time) const
+	{
+        return center0 + (time - timeAtCenter0) / (timeAtCenter1 - timeAtCenter0) * (center1 - center0);
+	}
 }

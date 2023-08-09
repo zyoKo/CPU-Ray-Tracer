@@ -13,7 +13,7 @@ namespace PathTracer
 	bool Metal::Scatter(const Ray& rayIn, const HitRecord& hitRecord, Math::color& attenuation, Ray& scattered) const
 	{
 		Math::vec3 reflected = Reflection(GetUnitVector(rayIn.GetDirection()), hitRecord.normal);
-		scattered = Ray(hitRecord.p, reflected + fuzziness * Math::RandomInUnitSphere());
+		scattered = Ray(hitRecord.p, reflected + fuzziness * Math::RandomInUnitSphere(), rayIn.GetTime());
 		attenuation = albedo;
 		return Dot(scattered.GetDirection(), hitRecord.normal) > 0.0;
 	}

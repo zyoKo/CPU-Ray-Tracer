@@ -10,11 +10,12 @@
 #include "Math/vec3.h"
 #include "Math/Constants/Constants.h"
 #include "Utilities/Color.h"
+#include "Geometry/MovingSphere.h"
 
 namespace PathTracer
 {
     PathTracer::PathTracer()
-	    :   camera(LOOK_FROM, LOOK_AT, VIEW_UP, FIELD_OF_VIEW, ASPECT_RATIO, APERTURE, FOCUS_DISTANCE)
+	    :   camera(LOOK_FROM, LOOK_AT, VIEW_UP, FIELD_OF_VIEW, ASPECT_RATIO, APERTURE, FOCUS_DISTANCE, CAPTURE_START, CAPTURE_END)
     {
 	    
     }
@@ -39,7 +40,8 @@ namespace PathTracer
                     {
                         auto albedo = Math::color::Random() * Math::color::Random();
                         sphereMaterial = std::make_shared<Lambertian>(albedo);
-                        world.Add(std::make_shared<Sphere>(center, 0.2, sphereMaterial));
+                        auto center2 = center + Math::vec3(0.0, Math::RandomDoubleInRangePrecise(0, 0.5), 0.0);
+                        world.Add(std::make_shared<MovingSphere>(center, center2, CAPTURE_START, CAPTURE_END, 0.2, sphereMaterial));
                     }
                     else if (chooseMat < 0.95) 
                     {
@@ -128,3 +130,4 @@ namespace PathTracer
         return (1.0 - t) * BACKGROUND_COLOR_START + t * BACKGROUND_COLOR_END;
     }
 }
+

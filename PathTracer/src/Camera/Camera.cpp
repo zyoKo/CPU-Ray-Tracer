@@ -9,7 +9,11 @@ namespace PathTracer
 		double fieldOfView,
 		double aspectRatio,
 		double aperture,
-		double focusDistance)
+		double focusDistance,
+		double captureStart,
+		double captureEnd)
+		:	captureStart(captureStart),
+			captureEnd(captureEnd)
 	{
 		const auto theta = Math::DegreesToRadians(fieldOfView);
 		const auto h = std::tan(theta / 2.0);
@@ -33,6 +37,6 @@ namespace PathTracer
 		const Math::vec3 random = lensRadius * Math::RandomInUnitDisk();
 		const Math::vec3 offset = u * random.x() + v * random.y();
 
-		return { origin + offset, lowerLeftCorner + s * horizontal + t * vertical - origin - offset };
+		return { origin + offset, lowerLeftCorner + s * horizontal + t * vertical - origin - offset, Math::RandomDoubleInRangePrecise(captureStart, captureEnd) };
 	}
 }

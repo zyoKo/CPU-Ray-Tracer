@@ -15,4 +15,8 @@ namespace PathTracer
 	constexpr double APERTURE = 0.1;
 
 	constexpr double FOCUS_DISTANCE = 10.0; //(LOOK_FROM - LOOK_AT).GetLength();
+
+	constexpr double CAPTURE_START = 0.0;
+
+	constexpr double CAPTURE_END = 1.0;
 }

@@ -16,7 +16,7 @@ namespace PathTracer
 	
 		double GetRadius() const;
 	
-		bool Hit(const Ray& ray, double t_min, double t_max, HitRecord& hitRecord) const override;
+		bool Hit(const Ray& ray, double tMin, double tMax, HitRecord& hitRecord) const override;
 	
 	private:
 		Math::point3 center;

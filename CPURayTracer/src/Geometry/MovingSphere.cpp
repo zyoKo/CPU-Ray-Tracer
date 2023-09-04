@@ -1,4 +1,5 @@
 #include "MovingSphere.h"
+#include "Physics/AABB_Helper.h"
 
 namespace PathTracer
 {
@@ -38,8 +39,28 @@ namespace PathTracer
         return true;
 	}
 
+	bool MovingSphere::BoundingBox(double startTime, double endTime, Physics::AABB& outputBoundingBox) const
+	{
+        Physics::AABB initialLocationBox(
+            GetPositionAtTime(startTime) - Math::vec3(radius, radius, radius),
+            GetPositionAtTime(startTime) + Math::vec3(radius, radius, radius));
+
+        Physics::AABB finalLocationBox(
+            GetPositionAtTime(endTime) - Math::vec3(radius, radius, radius),
+            GetPositionAtTime(endTime) + Math::vec3(radius, radius, radius));
+
+        outputBoundingBox = SurroundingBox(initialLocationBox, finalLocationBox);
+
+        return true;
+	}
+
 	Math::point3 MovingSphere::GetPositionAtTime(double time) const
 	{
         return center0 + (time - timeAtCenter0) / (timeAtCenter1 - timeAtCenter0) * (center1 - center0);
+	}
+
+	Physics::AABB MovingSphere::BoundingBox() const
+	{
+        return testCollider;
 	}
 }

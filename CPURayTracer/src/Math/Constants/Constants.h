@@ -12,6 +12,15 @@ namespace PathTracer::Math
 
 	inline double DegreesToRadians(double degree) { return degree * PI / 180.0; }
 
+	inline int RandomInt(int minimum, int maximum)
+	{
+		std::random_device rd;  // Seed for random number generator
+		std::mt19937 gen(rd());
+		std::uniform_int_distribution<int> distribution(minimum, maximum);
+
+		return distribution(gen);
+	}
+
 	inline double RandomDouble() { return rand() / (RAND_MAX + 1.0); }
 
 	inline double RandomDoublePrecise()

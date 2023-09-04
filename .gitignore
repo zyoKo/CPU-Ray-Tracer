@@ -3,10 +3,11 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
-# SLN file
+#Generated files
 *.sln
 *.vcxproj
 *.vcxproj.filters
+*.vcxproj.user
 
 # User-specific files
 *.rsuser
@@ -310,6 +311,14 @@ node_modules/
 *.ncb
 *.aps
 
+# Visual Studio LightSwitch build output
+**/*.HTMLClient/GeneratedArtifacts
+**/*.DesktopClient/GeneratedArtifacts
+**/*.DesktopClient/ModelManifest.xml
+**/*.Server/GeneratedArtifacts
+**/*.Server/ModelManifest.xml
+_Pvt_Extensions
+
 # Paket dependency manager
 .paket/paket.exe
 paket-files/
@@ -360,6 +369,18 @@ ASALocalRun/
 
 # Visual Studio History (VSHistory) files
 .vshistory/
+
+# BeatPulse healthcheck temp database
+healthchecksdb
+
+# Backup folder for Package Reference Convert tool in Visual Studio 2017
+MigrationBackup/
+
+# Ionide (cross platform F# VS Code tools) working folder
+.ionide/
+
+# Fody - auto-generated XML schema
+FodyWeavers.xsd
 
 # VS Code files for those working on multiple tools
 .vscode/*

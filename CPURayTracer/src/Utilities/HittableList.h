@@ -20,8 +20,17 @@ namespace PathTracer
 
 		bool Hit(const Ray& ray, double tMin, double tMax, HitRecord& hitRecord) const override;
 
+		bool BoundingBox(double startTime, double endTime, Physics::AABB& outputBoundingBox) const override;
+
+		const std::vector<std::shared_ptr<IHittable>>& GetObjects() const;
+
+		Physics::AABB BoundingBox() const override;
+
 	private:
 		std::vector<std::shared_ptr<IHittable>> objects;
+
+		// temp collider
+		Physics::AABB testCollider;
 	};
 }
 

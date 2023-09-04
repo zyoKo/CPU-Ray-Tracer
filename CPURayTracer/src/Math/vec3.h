@@ -7,6 +7,13 @@
 
 namespace PathTracer::Math
 {
+	enum class AXIS
+	{
+		X,
+		Y,
+		Z
+	};
+
 	class vec3
 	{
 	public:

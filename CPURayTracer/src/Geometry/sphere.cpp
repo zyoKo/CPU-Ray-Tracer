@@ -46,4 +46,18 @@ namespace PathTracer
 
         return true;
     }
+
+    bool Sphere::BoundingBox(double startTime, double endTime, Physics::AABB& outputBoundingBox) const
+    {
+        outputBoundingBox = Physics::AABB(
+            center - Math::vec3(radius, radius, radius),
+            center + Math::vec3(radius, radius, radius));
+
+        return true;
+    }
+
+    Physics::AABB Sphere::BoundingBox() const
+    {
+        return testCollider;
+    }
 }

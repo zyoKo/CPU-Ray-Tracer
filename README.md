@@ -12,7 +12,7 @@ git clone https://github.com/zyoKo/CPU-Ray-Tracer.git
 
 2. To create project files execute the ```script/generate-vs-files.bat```.
 
-3. Build the project and run with command-line arguments ```*.exe > filename.ppm```. The filename extension should be .ppm as the format only support PPM Images atm.
+3. Build the project and run with command-line arguments ```*.exe > filename.ppm```. The filename extension should be ```.ppm``` as the format only support PPM Images as of now.
 
 4. The PPM Image should be created in ```CPURayTracer/build``` folder. Use PPM Image viewer of your choice to view the image. 
 

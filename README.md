@@ -35,4 +35,4 @@ git clone https://github.com/zyoKo/CPU-Ray-Tracer.git
 
 ## Credits
 Path Tracer made using PeterShirley Ray Tracing Framework.
-[_Ray Tracing in One Weekend_](https://raytracing.github.io/)
+![_Ray Tracing in One Weekend_](https://raytracing.github.io/)

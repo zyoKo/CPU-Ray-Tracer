@@ -18,5 +18,17 @@ Path Tracer made using PeterShirley ray tracing framework.
 
 ## Project Description
 
-### Anti Aliasing
+### Final Render
 ![Final_Render](Images/FinalRender.png)
+
+### Focus Blur
+![Focus_Blur]()
+
+### Materials
+![Materials]()
+
+### Diffuse Reflection
+![Diffuse_Reflection]()
+
+### Anti-Aliasing
+![Anti_Aliasing]()
